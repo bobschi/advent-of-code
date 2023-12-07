@@ -27,7 +27,7 @@ class Game:
     draws: list[Draw] = field(default_factory=list)
 
 
-def parse_game(input: str) -> Draw:
+def parse_game(input: str) -> Game:
     draws = input.split(";")
     return Game(list(map(parse_draw, draws)))
 
@@ -51,24 +51,60 @@ def possible_game_id(input: str, bag: Draw) -> int:
     return 0
 
 
+def minimal_bag(game: Game, bag: Draw) -> Draw:
+    observed_bag = Draw()
+    for draw in game.draws:
+        observed_bag = Draw(
+            max(observed_bag.red, draw.red),
+            max(observed_bag.green, draw.green),
+            max(observed_bag.blue, draw.blue),
+        )
+
+    def min_without_zero(a: int, b: int) -> int:
+        if a == 0:
+            return b
+        if b == 0:
+            return a
+        return min(a, b)
+
+    return Draw(
+        min_without_zero(observed_bag.red, bag.red),
+        min_without_zero(observed_bag.green, bag.green),
+        min_without_zero(observed_bag.blue, bag.blue),
+    )
+
+
+def power(draw: Draw) -> int:
+    return draw.red * draw.green * draw.blue
+
+
 def solve_part_a(inputs: list[str], bag: Draw) -> int:
     return sum([possible_game_id(input, bag) for input in inputs])
 
 
-def main(part: str, red: int, green: int, blue: int, submit: bool = False) -> None:
-    day = 2
+def solve_part_b(inputs: list[str], bag: Draw) -> int:
+    bag_powers: list[int] = list()
+    for input in inputs:
+        _, draws = input.split(": ")
+        bag_powers.append(power(minimal_bag(parse_game(draws), bag)))
 
-    part = aoc.Part(part)
+    return sum(bag_powers)
+
+
+def main(
+    part: str, red: int = 0, green: int = 0, blue: int = 0, submit: bool = False
+) -> None:
+    p = aoc.Part(part)
     bag = Draw(red, green, blue)
 
-    inputs = aocd.get_data(day=day, year=aoc.YEAR).split("\n")
+    inputs = aocd.get_data(day=2, year=aoc.YEAR).split("\n")
 
-    result = solve_part_a(inputs, bag)
+    solvers = {aoc.Part.A: solve_part_a, aoc.Part.B: solve_part_b}
 
     if submit:
-        aocd.submit(result.value, day=day, year=aoc.YEAR)
+        aocd.submit(solvers.get(p)(inputs, bag), p.value, day=2, year=aoc.YEAR)
     else:
-        typer.echo(f"Result: {result}")
+        typer.echo(f"Result: {solvers.get(p)(inputs, bag)}")
 
 
 if __name__ == "__main__":

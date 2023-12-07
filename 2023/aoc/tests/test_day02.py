@@ -5,9 +5,11 @@ from aoc.day02 import (
     Game,
     is_possible_draw,
     is_possible_game,
+    minimal_bag,
     parse_draw,
     parse_game,
     possible_game_id,
+    power,
     solve_part_a,
 )
 
@@ -32,7 +34,9 @@ def example_game_2_part_a() -> tuple[str, Game]:
 
 
 @pytest.fixture
-def two_example_games(example_game_1_part_a, example_game_2_part_a) -> list[tuple[str, Game]]:
+def two_example_games(
+    example_game_1_part_a, example_game_2_part_a
+) -> list[tuple[str, Game]]:
     return [example_game_1_part_a, example_game_2_part_a]
 
 
@@ -98,3 +102,28 @@ def test_possible_game_id(example_games_part_a, example_bag) -> None:
 
 def test_solve_part_a(example_games_part_a, example_bag) -> None:
     assert solve_part_a(example_games_part_a, example_bag) == 8
+
+
+def test_minimal_bag(example_bag) -> None:
+    # return Draw(red=12, green=13, blue=14)
+    game_plus_expected = [
+        (Game([Draw(red=4, blue=3)]), Draw(4, 13, 3)),
+        (Game([Draw(red=1, green=2, blue=6)]), Draw(1, 2, 6)),
+        (Game([Draw(green=2)]), Draw(12, 2, 14)),
+    ]
+
+    for game, expected in game_plus_expected:
+        assert minimal_bag(game, example_bag) == expected
+
+
+def test_power() -> None:
+    draw_plus_expected = [
+        (Draw(4, 2, 6), 48),
+        (Draw(1, 3, 4), 12),
+        (Draw(20, 13, 6), 1560),
+        (Draw(14, 3, 15), 630),
+        (Draw(6, 3, 2), 36),
+    ]
+
+    for draw, expected in draw_plus_expected:
+        assert power(draw) == expected
