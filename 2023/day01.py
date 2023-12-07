@@ -1,8 +1,8 @@
 import re
 import enum
 import aocd
-import argparse
 import aoc
+import typer
 
 
 class Position(enum.IntEnum):
@@ -22,14 +22,11 @@ def solve(input: list[str], part: aoc.Part) -> int:
     return sum(map(calibration_value, input, part * len(input)))
 
 
-def __main__():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("part", choices=["a", "b"])
-
+def main(part: str) -> None:
+    part = aoc.Part(part)
     inputs = aocd.get_data(day=1, year=2023).split("\n")
-    if (part := aoc.Part(parser.parse_args().part)) == aoc.Part.A:
-        aocd.submit(solve(inputs, part), part.value, day=1, year=2023)
+    aocd.submit(solve(inputs, part), part.value, day=1, year=2023)
 
 
 if __name__ == "__main__":
-    __main__()
+    typer.run(main)
