@@ -41,7 +41,7 @@ def digit(input: str, position: Position, part: aoc.Part) -> str:
 
 
 def calibration_value(input: str, part: aoc.Part) -> int:
-    return int(digit(input, Position.LAST, part) + digit(input, Position.FIRST, part))
+    return int(digit(input, Position.FIRST, part) + digit(input, Position.LAST, part))
 
 
 def solve(input: list[str], part: aoc.Part) -> int:
