@@ -12,7 +12,6 @@ repos:
           - id: check-case-conflict
           - id: debug-statements
           - id: forbid-submodules
-          - id: name-tests-test
 
     - repo: https://github.com/astral-sh/ruff-pre-commit
       rev: v0.1.7
