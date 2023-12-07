@@ -21,11 +21,6 @@ repos:
             args: [--fix]
           - id: ruff-format
 
-    - repo: https://github.com/hhatto/autopep8
-      rev: v2.0.4
-      hooks:
-          - id: autopep8
-
     - repo: https://github.com/adrienverge/yamllint.git
       rev: v1.21.0
       hooks:
