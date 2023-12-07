@@ -1,5 +1,5 @@
-import aoc
-import day01
+import aoc.infra as aoc
+import aoc.day01 as day01
 import pytest
 
 

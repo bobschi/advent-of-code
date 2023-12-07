@@ -1,7 +1,7 @@
 import re
 import enum
 import aocd
-import aoc
+import aoc.infra as aoc
 import typer
 
 
@@ -24,7 +24,10 @@ WORD_TO_DIGIT = dict(
 
 
 def part_specific_regex(part: aoc.Part) -> str:
-    regexes = {aoc.Part.A: r"\d", aoc.Part.B: rf"{'|'.join(WORD_TO_DIGIT.keys())}|\d"}
+    regexes = {
+        aoc.Part.A: r"\d",
+        aoc.Part.B: rf"{'|'.join(WORD_TO_DIGIT.keys())}|\d",
+    }
     return regexes.get(part)
 
 
