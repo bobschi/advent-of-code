@@ -69,3 +69,9 @@ def test_calibration_value_part_b(part_b_examples: list[str]) -> None:
 
 def test_solve_part_b(part_b_examples: list[str]) -> None:
     assert day01.solve(part_b_examples, aoc.Part.B) == 281
+
+
+def test_calibration_value_words_numbers() -> None:
+    combos = [("eighthree", 83), ("sevenine", 79)]
+    for combo in combos:
+        assert day01.calibration_value(combo[0], aoc.Part.B) == combo[1]
