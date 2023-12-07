@@ -1,6 +1,7 @@
-import aoc.infra as aoc
-import aoc.day01 as day01
 import pytest
+
+import aoc.day01 as day01
+import aoc.infra as aoc
 
 
 @pytest.fixture

@@ -1,8 +1,10 @@
-import re
 import enum
+import re
+
 import aocd
-import aoc.infra as aoc
 import typer
+
+import aoc.infra as aoc
 
 
 class Position(enum.IntEnum):
