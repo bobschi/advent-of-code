@@ -1,6 +1,14 @@
 import pytest
 
-from aoc.day04 import Card, parse_card, score, solve_part_a, winning_numbers
+from aoc.day04 import (
+    Card,
+    generate_copies,
+    parse_card,
+    score,
+    solve_part_a,
+    solve_part_b,
+    winning_numbers,
+)
 
 
 @pytest.fixture
@@ -52,3 +60,18 @@ def test_score(example_expected_cards) -> None:
 
 def test_solve_part_a(example_scratch_cards) -> None:
     assert solve_part_a(example_scratch_cards) == 13
+
+
+def test_generate_copies(example_expected_cards) -> None:
+    generate_copies(example_expected_cards)
+
+    assert example_expected_cards[0].count == 1
+    assert example_expected_cards[1].count == 2
+    assert example_expected_cards[2].count == 4
+    assert example_expected_cards[3].count == 8
+    assert example_expected_cards[4].count == 14
+    assert example_expected_cards[5].count == 1
+
+
+def test_solve_part_b(example_scratch_cards) -> None:
+    assert solve_part_b(example_scratch_cards) == 30

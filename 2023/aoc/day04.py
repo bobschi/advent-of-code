@@ -10,6 +10,7 @@ class Card:
     id: int
     winners: list[int]
     guesses: list[int]
+    count: int = 1
 
 
 def parse_card(line: str) -> Card:
@@ -40,5 +41,20 @@ def solve_part_a(cards: list[str]) -> int:
     return sum(map(score, map(parse_card, cards)))
 
 
+def generate_copies(cards: list[Card]) -> None:
+    for card in cards:
+        number_winners = len(winning_numbers(card))
+        for to_increase in range(card.id, card.id + number_winners):
+            if to_increase < len(cards):
+                cards[to_increase].count += card.count
+
+
+def solve_part_b(input: list[str]) -> int:
+    cards = list(map(parse_card, input))
+    generate_copies(cards)
+
+    return sum([card.count for card in cards])
+
+
 if __name__ == "__main__":
-    typer.run(get_cli(solve_part_a, None, 4))
+    typer.run(get_cli(solve_part_a, solve_part_b, 4))
