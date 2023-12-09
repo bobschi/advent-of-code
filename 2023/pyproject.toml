@@ -13,6 +13,7 @@ advent-of-code-data = "^2.0.1"
 pytest = "^7.4.3"
 loguru = "^0.7.2"
 ruff = "^0.1.7"
+rich = "^13.7.0"
 
 [build-system]
 requires = ["poetry-core"]
