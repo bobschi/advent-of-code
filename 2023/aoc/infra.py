@@ -8,7 +8,7 @@ from rich.progress import Progress, SpinnerColumn, TextColumn, TimeElapsedColumn
 YEAR = 2023
 
 
-class Part(enum.StrEnum):
+class Part(enum.Enum):
     A = "a"
     B = "b"
 

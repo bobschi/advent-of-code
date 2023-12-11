@@ -47,7 +47,7 @@ def calibration_value(input: str, part: aoc.Part) -> int:
 
 
 def solve(input: list[str], part: aoc.Part) -> int:
-    return sum(map(calibration_value, input, part * len(input)))
+    return sum(map(calibration_value, input, [part for _ in range(len(input))]))
 
 
 def main(part: str, submit: bool = False) -> None:
