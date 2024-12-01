@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "aoc-2024"
+version = "None"
+description = ""
+authors = ["Florian Holzner"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
