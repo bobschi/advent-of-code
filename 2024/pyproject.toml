@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "aoc-2024"
-version = "None"
+version = "0.0.1"
 description = ""
 authors = ["Florian Holzner"]
 readme = "README.md"
