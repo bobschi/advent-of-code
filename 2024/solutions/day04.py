@@ -1,8 +1,122 @@
+from __future__ import annotations
+
+from enum import Enum
+
 import aocd
 import typer
 
-def part1() -> None:
-    ...
+app = typer.Typer()
 
-def process_data(input: str) -> list[list[str]]:
-    return list(map(str.split, input.split("\n")))
+
+Matrix = list[list[str]]
+
+
+class Point:
+    x: int
+    y: int
+
+    def __init__(self, x: int, y: int) -> None:
+        self.x = x
+        self.y = y
+
+    def __add__(self, other: Point) -> Point:
+        return Point(self.x + other.x, self.y + other.y)
+
+    def __sub__(self, other: Point) -> Point:
+        return Point(self.x - other.x, self.y - other.y)
+
+    def __eq__(self, other) -> bool:
+        return self.x == other.x and self.y == other.y
+
+    def scalar_mult(self, factor: int) -> Point:
+        return Point(self.x * factor, self.y * factor)
+
+
+class Dir(Enum):
+    N = Point(-1, 0)
+    NE = Point(-1, 1)
+    E = Point(0, 1)
+    SE = Point(1, 1)
+    S = Point(1, 0)
+    SW = Point(1, -1)
+    W = Point(0, -1)
+    NW = Point(-1, -1)
+
+    @staticmethod
+    def all() -> list[Dir]:
+        return [Dir.N, Dir.NE, Dir.E, Dir.SE, Dir.S, Dir.SW, Dir.W, Dir.NW]
+
+
+def get_char(input: Matrix, coord: Point) -> str:
+    return input[coord.x][coord.y]
+
+
+def process_data(input: str) -> Matrix:
+    return list(map(list, input.split("\n")))
+
+
+def char_coords(input: Matrix, char: str = "X") -> list[Point]:
+    return [
+        Point(x, y)
+        for x, line in enumerate(input)
+        for y, character in enumerate(line)
+        if character == char
+    ]
+
+
+def in_bounds(input: Matrix, coord: Point) -> bool:
+    return 0 <= coord.x < len(input) and 0 <= coord.y < len(input[0])
+
+
+def candidates(input: Matrix, coord: Point, direction: Dir) -> list[Point]:
+    coords = [coord + direction.value.scalar_mult(factor) for factor in range(0, 4)]
+
+    if not all([in_bounds(input, coord) for coord in coords]):
+        return []
+
+    return coords
+
+
+def number_of_xmas(input: Matrix) -> int:
+    hits = 0
+    for x_coord in char_coords(input):
+        for direction in Dir.all():
+            coords = candidates(input, x_coord, direction)
+            if coords:
+                word = "".join([get_char(input, coord) for coord in coords])
+                if word == "XMAS":
+                    hits = hits + 1
+    return hits
+
+
+def is_mas(word: str) -> bool:
+    return word == "MAS" or word == "SAM"
+
+
+def number_of_x_mas(input: Matrix) -> int:
+    hits = 0
+    for a_coord in char_coords(input, "A"):
+        word_1_coords = [a_coord + Dir.NW.value, a_coord, a_coord + Dir.SE.value]
+        word_2_coords = [a_coord + Dir.NE.value, a_coord, a_coord + Dir.SW.value]
+
+        if not all([in_bounds(input, c) for c in word_1_coords + word_2_coords]):
+            continue
+
+        word_1 = "".join([get_char(input, c) for c in word_1_coords])
+        word_2 = "".join([get_char(input, c) for c in word_2_coords])
+        if is_mas(word_1) and is_mas(word_2):
+            hits = hits + 1
+
+    return hits
+
+
+@app.command()
+def part1() -> None:
+    matrix = process_data(aocd.get_data(day=4, year=2024))
+    aocd.submit(str(number_of_xmas(matrix)), part="a", day=4, year=2024)
+
+
+@app.command()
+def part2() -> None:
+    matrix = process_data(aocd.get_data(day=4, year=2024))
+    aocd.submit(str(number_of_x_mas(matrix)), part="b", day=4, year=2024)
