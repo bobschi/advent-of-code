@@ -1,9 +1,9 @@
 from __future__ import annotations
 
-from enum import Enum
-
 import aocd
 import typer
+
+from solutions.shared import Point, Dir
 
 app = typer.Typer()
 
@@ -11,40 +11,6 @@ app = typer.Typer()
 Matrix = list[list[str]]
 
 
-class Point:
-    x: int
-    y: int
-
-    def __init__(self, x: int, y: int) -> None:
-        self.x = x
-        self.y = y
-
-    def __add__(self, other: Point) -> Point:
-        return Point(self.x + other.x, self.y + other.y)
-
-    def __sub__(self, other: Point) -> Point:
-        return Point(self.x - other.x, self.y - other.y)
-
-    def __eq__(self, other) -> bool:
-        return self.x == other.x and self.y == other.y
-
-    def scalar_mult(self, factor: int) -> Point:
-        return Point(self.x * factor, self.y * factor)
-
-
-class Dir(Enum):
-    N = Point(-1, 0)
-    NE = Point(-1, 1)
-    E = Point(0, 1)
-    SE = Point(1, 1)
-    S = Point(1, 0)
-    SW = Point(1, -1)
-    W = Point(0, -1)
-    NW = Point(-1, -1)
-
-    @staticmethod
-    def all() -> list[Dir]:
-        return [Dir.N, Dir.NE, Dir.E, Dir.SE, Dir.S, Dir.SW, Dir.W, Dir.NW]
 
 
 def get_char(input: Matrix, coord: Point) -> str:
