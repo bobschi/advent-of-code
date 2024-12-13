@@ -6,7 +6,7 @@ from solutions.day06 import (
     possible_new_obstructions,
     process_data,
     guard_position,
-    Point,
+    Vector,
     in_bounds,
     calculate_guard_route,
 )
@@ -51,21 +51,21 @@ def test_import_data(example_input: str, processed_map: Map) -> None:
 
 
 def test_guard_position(processed_map: Map) -> None:
-    assert guard_position(processed_map) == Point(6, 4)
+    assert guard_position(processed_map) == Vector(6, 4)
 
 
 def test_in_bounds(processed_map: Map) -> None:
-    bottom_right = Point(processed_map.len_x(), processed_map.len_y()) - Point(1, 1)
-    assert in_bounds(processed_map, Point(0, 0))
+    bottom_right = Vector(processed_map.len_x(), processed_map.len_y()) - Vector(1, 1)
+    assert in_bounds(processed_map, Vector(0, 0))
     assert in_bounds(processed_map, bottom_right)
-    assert in_bounds(processed_map, Point(5, 5))
+    assert in_bounds(processed_map, Vector(5, 5))
 
-    assert not in_bounds(processed_map, Point(-1, -1))
-    assert not in_bounds(processed_map, Point(0, -1))
-    assert not in_bounds(processed_map, Point(-1, 0))
-    assert not in_bounds(processed_map, Point(9999, 9999))
-    assert not in_bounds(processed_map, Point(0, 9999))
-    assert not in_bounds(processed_map, Point(9999, 0))
+    assert not in_bounds(processed_map, Vector(-1, -1))
+    assert not in_bounds(processed_map, Vector(0, -1))
+    assert not in_bounds(processed_map, Vector(-1, 0))
+    assert not in_bounds(processed_map, Vector(9999, 9999))
+    assert not in_bounds(processed_map, Vector(0, 9999))
+    assert not in_bounds(processed_map, Vector(9999, 0))
 
 
 def test_calculate_guard_route(processed_map: Map) -> None:
@@ -75,12 +75,12 @@ def test_calculate_guard_route(processed_map: Map) -> None:
 
 def test_find_loops(processed_map: Map) -> None:
     expected_positions = {
-        Point(6, 3),
-        Point(7, 6),
-        Point(7, 7),
-        Point(8, 1),
-        Point(8, 3),
-        Point(9, 7),
+        Vector(6, 3),
+        Vector(7, 6),
+        Vector(7, 7),
+        Vector(8, 1),
+        Vector(8, 3),
+        Vector(9, 7),
     }
     loops = find_loops(processed_map)
     positions = {loop.the_map.new_obstruction_position() for loop in loops}
@@ -90,12 +90,12 @@ def test_find_loops(processed_map: Map) -> None:
 
 def test_possible_new_obstructions(processed_map: Map) -> None:
     expected_positions = {
-        Point(6, 3),
-        Point(7, 6),
-        Point(7, 7),
-        Point(8, 1),
-        Point(8, 3),
-        Point(9, 7),
+        Vector(6, 3),
+        Vector(7, 6),
+        Vector(7, 7),
+        Vector(8, 1),
+        Vector(8, 3),
+        Vector(9, 7),
     }
     new_obstructions = possible_new_obstructions(find_loops(processed_map))
 

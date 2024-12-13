@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from enum import Enum
 
-from solutions.shared import Point
+from solutions.shared import Vector
 
 
 class Dir(Enum):
-    N = Point(-1, 0)
-    NE = Point(-1, 1)
-    E = Point(0, 1)
-    SE = Point(1, 1)
-    S = Point(1, 0)
-    SW = Point(1, -1)
-    W = Point(0, -1)
-    NW = Point(-1, -1)
+    N = Vector(-1, 0)
+    NE = Vector(-1, 1)
+    E = Vector(0, 1)
+    SE = Vector(1, 1)
+    S = Vector(1, 0)
+    SW = Vector(1, -1)
+    W = Vector(0, -1)
+    NW = Vector(-1, -1)
 
     @staticmethod
     def all() -> list[Dir]:

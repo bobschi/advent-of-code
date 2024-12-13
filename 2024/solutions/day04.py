@@ -3,7 +3,7 @@ from __future__ import annotations
 import aocd
 import typer
 
-from solutions.shared import Point, Dir
+from solutions.shared import Vector, Dir
 
 app = typer.Typer()
 
@@ -13,7 +13,7 @@ Matrix = list[list[str]]
 
 
 
-def get_char(input: Matrix, coord: Point) -> str:
+def get_char(input: Matrix, coord: Vector) -> str:
     return input[coord.x][coord.y]
 
 
@@ -21,20 +21,20 @@ def process_data(input: str) -> Matrix:
     return list(map(list, input.split("\n")))
 
 
-def char_coords(input: Matrix, char: str = "X") -> list[Point]:
+def char_coords(input: Matrix, char: str = "X") -> list[Vector]:
     return [
-        Point(x, y)
+        Vector(x, y)
         for x, line in enumerate(input)
         for y, character in enumerate(line)
         if character == char
     ]
 
 
-def in_bounds(input: Matrix, coord: Point) -> bool:
+def in_bounds(input: Matrix, coord: Vector) -> bool:
     return 0 <= coord.x < len(input) and 0 <= coord.y < len(input[0])
 
 
-def candidates(input: Matrix, coord: Point, direction: Dir) -> list[Point]:
+def candidates(input: Matrix, coord: Vector, direction: Dir) -> list[Vector]:
     coords = [coord + direction.value.scalar_mult(factor) for factor in range(0, 4)]
 
     if not all([in_bounds(input, coord) for coord in coords]):

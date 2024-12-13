@@ -6,7 +6,7 @@ import aocd
 import typer
 from rich.progress import track
 
-from solutions.shared import Dir, Point
+from solutions.shared import Dir, Vector
 
 
 class Marks(StrEnum):
@@ -18,7 +18,7 @@ class Marks(StrEnum):
 
 app = typer.Typer()
 
-type Movements = list[Point]
+type Movements = list[Vector]
 
 
 class Map:
@@ -33,7 +33,7 @@ class Map:
     def __repr__(self) -> str:
         return f"Map {len(self.fields)}x{len(self.fields[0])}"
 
-    def get(self, coords: Point) -> str:
+    def get(self, coords: Vector) -> str:
         return self.fields[coords.x][coords.y]
 
     def len_x(self) -> int:
@@ -42,29 +42,29 @@ class Map:
     def len_y(self) -> int:
         return len(self.fields[0])
 
-    def set(self, coords: Point, mark: str) -> None:
+    def set(self, coords: Vector, mark: str) -> None:
         self.fields[coords.x][coords.y] = mark
 
-    def visit(self, coords: Point) -> None:
+    def visit(self, coords: Vector) -> None:
         self.set(coords, Marks.VISITED)
 
-    def obstruct(self, coords: Point) -> None:
+    def obstruct(self, coords: Vector) -> None:
         self.set(coords, Marks.NEW_OBSTRUCTION)
 
-    def is_obstructed(self, coords: Point) -> bool:
+    def is_obstructed(self, coords: Vector) -> bool:
         return self.get(coords) in [Marks.OBSTRUCTION, Marks.NEW_OBSTRUCTION]
 
-    def new_obstruction_position(self) -> Point:
+    def new_obstruction_position(self) -> Vector:
         for x, line in enumerate(self.fields):
             if Marks.NEW_OBSTRUCTION in line:
-                return Point(x, line.index(Marks.NEW_OBSTRUCTION))
-        return Point(-1, -1)
+                return Vector(x, line.index(Marks.NEW_OBSTRUCTION))
+        return Vector(-1, -1)
 
 
 class Route:
     the_map: Map
     movements: Movements
-    directions: dict[Point, list[Dir]]
+    directions: dict[Vector, list[Dir]]
     is_loop: bool = False
 
     def __init__(self, the_map: Map) -> None:
@@ -72,16 +72,16 @@ class Route:
         self.movements = []
         self.directions = defaultdict(list)
 
-    def add(self, position: Point, direction: Dir) -> None:
+    def add(self, position: Vector, direction: Dir) -> None:
         self.movements.append(position)
         self.directions[position].append(direction)
 
 
-def is_loop(position: Point, direction: Dir, route: Route) -> bool:
+def is_loop(position: Vector, direction: Dir, route: Route) -> bool:
     return direction in route.directions[position]
 
 
-def in_bounds(the_map: Map, position: Point) -> bool:
+def in_bounds(the_map: Map, position: Vector) -> bool:
     return 0 <= position.x < the_map.len_x() and 0 <= position.y < the_map.len_y()
 
 
@@ -89,13 +89,13 @@ def process_data(data: str) -> Map:
     return Map([list(line) for line in data.split("\n")])
 
 
-def guard_position(the_map: Map) -> Point:
+def guard_position(the_map: Map) -> Vector:
     for x, line in enumerate(the_map.fields):
         for y, cell in enumerate(line):
             if cell == Marks.GUARD:
-                return Point(x, y)
+                return Vector(x, y)
 
-    return Point(-1, -1)
+    return Vector(-1, -1)
 
 
 def calculate_guard_route(the_map: Map) -> Route:
@@ -148,7 +148,7 @@ def visualize_route(the_map: Map, route: Route | None = None) -> None:
         print("".join(line))
 
 
-def possible_new_obstructions(loops: list[Route]) -> set[Point]:
+def possible_new_obstructions(loops: list[Route]) -> set[Vector]:
     return {loop.the_map.new_obstruction_position() for loop in loops}
 
 
