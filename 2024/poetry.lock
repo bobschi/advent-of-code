@@ -516,6 +516,20 @@ files = [
 ]
 
 [[package]]
+name = "syrupy"
+version = "4.8.0"
+description = "Pytest Snapshot Test Utility"
+optional = false
+python-versions = ">=3.8.1"
+files = [
+    {file = "syrupy-4.8.0-py3-none-any.whl", hash = "sha256:544f4ec6306f4b1c460fdab48fd60b2c7fe54a6c0a8243aeea15f9ad9c638c3f"},
+    {file = "syrupy-4.8.0.tar.gz", hash = "sha256:648f0e9303aaa8387c8365d7314784c09a6bab0a407455c6a01d6a4f5c6a8ede"},
+]
+
+[package.dependencies]
+pytest = ">=7.0.0,<9.0.0"
+
+[[package]]
 name = "typer"
 version = "0.14.0"
 description = "Typer, build great CLIs. Easy to code. Based on Python type hints."
@@ -574,4 +588,4 @@ zstd = ["zstandard (>=0.18.0)"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.12"
-content-hash = "6ed354b40d5335c02427ad57d7efb67df1cdb33bedb505b89dd4888ca17ccec3"
+content-hash = "4fa8a998a4d6c9bae380f663b35e8bee1a8bd1ce117afe17abf9269c5e7f0cc8"
